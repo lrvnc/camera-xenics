@@ -73,6 +73,18 @@ uv run pytest -m hardware  # needs the device connected
 
 ## Releasing
 
-1. Bump `version` in `pyproject.toml`.
-2. Move the `Unreleased` entries in `CHANGELOG.md` under the new version.
-3. Commit, then `git tag vX.Y.Z` and `git push origin main vX.Y.Z`. Never move or delete a tag.
+`main` only changes through pull requests (squash merge), so a release is a PR followed by a tag:
+
+1. On a branch `chore/release-vX.Y.Z`: bump `version` in `pyproject.toml` and move the
+   `Unreleased` entries in `CHANGELOG.md` under `## vX.Y.Z`.
+2. Open a PR titled `chore: release vX.Y.Z` and squash-merge it.
+3. Tag the merged commit and push only the tag:
+
+   ```
+   git switch main
+   git pull
+   git tag vX.Y.Z
+   git push origin vX.Y.Z
+   ```
+
+Never move or delete a tag: projects pinned to it rely on it staying the same.
